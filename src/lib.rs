@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests;
 /// Type representing a standard Brainfuck instruction.
+#[derive(Debug, PartialEq)] // this is for tests
 enum BrainfuckInstr {
     /// Move the data pointer back one cell.
     PointerDec,
@@ -20,6 +21,7 @@ enum BrainfuckInstr {
     EndWhile
 }
 /// The syntax errors possible.
+#[derive(Debug)]
 enum SyntaxError {
     /// A closing square bracket was found at the contained index, but there was no opening square bracket before it.
     PrematureEndWhile(usize),
