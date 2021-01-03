@@ -32,6 +32,22 @@ enum SyntaxError {
 struct Parser; // empty because it has no internal state yet
 impl Parser {
     fn parse(&mut self, code: &str) -> Result<Vec<BrainfuckInstr>, SyntaxError> {
-        unimplemented!()
+        use BrainfuckInstr::*;
+        let mut output = Vec::new();
+        let chars = code.chars();
+        for ch in chars {
+            output.push(match ch {
+                '<' => PointerDec,
+                '>' => PointerInc,
+                '-' => DataDec,
+                '+' => DataInc,
+                ',' => GetByte,
+                '.' => PutByte,
+                '[' => WhileNonzero,
+                ']' => EndWhile,
+                _ => { continue; /* skip this iteration if the character is something else */}
+            });
+        }
+        Ok(output)
     }
 }
