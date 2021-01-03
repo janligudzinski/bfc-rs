@@ -5,7 +5,7 @@ use super::*; // import all symbols from our parent module, the library root
 use BrainfuckInstr::*;
 #[test]
 fn test_newline_program() {
-    let mut parser = Parser;
+    let mut parser = Parser::new();
     let output = parser
     .parse(NEWLINE_PRINTING_PROGRAM)
     .expect("The newline program contains no syntax errors, something is wrong with the parser.");
@@ -18,7 +18,7 @@ fn test_newline_program() {
 }
 #[test]
 fn test_premature_program() {
-    let mut parser = Parser;
+    let mut parser = Parser::new();
     let output = parser
     .parse(PREMATURE_PROGRAM)
     .expect_err("The code in premature.bf shouldn't produce a valid instruction list.");
@@ -26,7 +26,7 @@ fn test_premature_program() {
 }
 #[test]
 fn test_unmatched_program() {
-    let mut parser = Parser;
+    let mut parser = Parser::new();
     let output = parser
     .parse(UNMATCHED_PROGRAM)
     .expect_err("The code in unmatched.bf shouldn't produce a valid instruction list.");
