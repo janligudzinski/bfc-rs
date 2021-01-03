@@ -23,10 +23,10 @@ enum BrainfuckInstr {
 /// The syntax errors possible.
 #[derive(Debug)]
 enum SyntaxError {
-    /// A closing square bracket was found at the contained index, but there was no opening square bracket before it.
-    PrematureEndWhile(usize),
-    /// The last while loop opened, at the contained index, has no closing bracket.
-    UnclosedWhile(usize)
+    /// A closing square bracket was found at the contained line:index position, but there was no opening square bracket before it.
+    PrematureEndWhile(usize, usize),
+    /// The last while loop opened, at the contained line:index position, has no closing bracket.
+    UnclosedWhile(usize, usize)
 }
 /// Struct responsible for parsing Brainfuck.
 struct Parser; // empty because it has no internal state yet
@@ -34,19 +34,20 @@ impl Parser {
     fn parse(&mut self, code: &str) -> Result<Vec<BrainfuckInstr>, SyntaxError> {
         use BrainfuckInstr::*;
         let mut output = Vec::new();
-        let chars = code.chars();
-        for ch in chars {
-            output.push(match ch {
-                '<' => PointerDec,
-                '>' => PointerInc,
-                '-' => DataDec,
-                '+' => DataInc,
-                ',' => GetByte,
-                '.' => PutByte,
-                '[' => WhileNonzero,
-                ']' => EndWhile,
-                _ => { continue; /* skip this iteration if the character is something else */}
-            });
+        for (line_number, line) in code.lines().enumerate() {
+            for (ch_number, ch) in line.chars().enumerate() {
+                output.push(match ch {
+                    '<' => PointerDec,
+                    '>' => PointerInc,
+                    '-' => DataDec,
+                    '+' => DataInc,
+                    ',' => GetByte,
+                    '.' => PutByte,
+                    '[' => WhileNonzero,
+                    ']' => EndWhile,
+                    _ => { continue; /* skip this iteration if the character is something else */}
+                });
+            }
         }
         Ok(output)
     }
