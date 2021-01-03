@@ -21,7 +21,7 @@ enum BrainfuckInstr {
     EndWhile
 }
 /// The syntax errors possible.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 enum SyntaxError {
     /// A closing square bracket was found at the contained line:index position, but there was no opening square bracket before it.
     PrematureEndWhile(usize, usize),
