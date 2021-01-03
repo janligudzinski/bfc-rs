@@ -1,0 +1,1 @@
+const NEWLINE_PRINTING_PROGRAM: &str = include_str!("../newline.bf");
