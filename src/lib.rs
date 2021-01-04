@@ -4,7 +4,7 @@ mod parser;
 mod compiler;
 /// Type representing a standard Brainfuck instruction.
 #[derive(Debug, PartialEq)] // this is for tests
-enum BrainfuckInstr {
+pub enum BrainfuckInstr {
     /// Move the data pointer back one cell.
     PointerDec,
     /// Move the data pointer forward one cell.
