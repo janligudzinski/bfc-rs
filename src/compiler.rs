@@ -20,5 +20,10 @@ pub fn compile(code: &[BrainfuckInstr]) -> String {
 }
 /// Transforms an individual Brainfuck instruction into an x86 one.
 fn translate_instruction(instruction: &BrainfuckInstr) -> &str {
-    unimplemented!()
+    use BrainfuckInstr::*;
+    match instruction {
+        DataInc => "inc byte [rsi]",
+        PutByte => "mov rdx,1\nmov rdi,1\nmov rax,1\nsyscall",
+        _ => unimplemented!()
+    }
 }
