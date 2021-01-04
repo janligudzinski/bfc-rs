@@ -1,10 +1,12 @@
-const NEWLINE_PRINTING_PROGRAM: &str = include_str!("../newline.bf"); // same thing as we did with the NASM template while writing HWDPC
-const PREMATURE_PROGRAM: &str = include_str!("../premature.bf");
-const UNMATCHED_PROGRAM: &str = include_str!("../unmatched.bf");
-use super::*; // import all symbols from our parent module, the library root
-use BrainfuckInstr::*;
+const NEWLINE_PRINTING_PROGRAM: &str = include_str!("../../newline.bf"); // same thing as we did with the NASM template while writing HWDPC
+const PREMATURE_PROGRAM: &str = include_str!("../../premature.bf");
+const UNMATCHED_PROGRAM: &str = include_str!("../../unmatched.bf");
+use super::*; // import all symbols from our parent module, the parser module
 #[test]
 fn test_newline_program() {
+    /* refer to all variants of the instruction type directly,
+    without prefixing them with "BrainfuckInstr::" */
+    use BrainfuckInstr::*;
     let mut parser = Parser::new();
     let output = parser
     .parse(NEWLINE_PRINTING_PROGRAM)
