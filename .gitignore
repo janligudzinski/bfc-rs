@@ -5,3 +5,5 @@
 *.o
 *.out
 build/
+hi_naive
+hi_optimized
