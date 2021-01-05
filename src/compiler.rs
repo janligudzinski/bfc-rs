@@ -10,20 +10,25 @@ const EXIT_SYSCALL: &str = include_str!("compiler/exit.asm");
 pub fn compile(code: &[BrainfuckInstr]) -> String {
     let mut output = String::new();
     output.push_str(ALLOCATE_AND_START);
+    let mut bracket_counter = 0;
     for instruction in code {
         // Generate the rest of the damn code.
-        output.push_str(translate_instruction(instruction));
-        output.push('\n');
+        translate_instruction(instruction, &mut bracket_counter, &mut output);
     }
     output.push_str(EXIT_SYSCALL);
     output
 }
-/// Transforms an individual Brainfuck instruction into an x86 one.
-fn translate_instruction(instruction: &BrainfuckInstr) -> &str {
+/// Transforms an individual Brainfuck instruction into an x86 one and stores it in the output buffer.
+fn translate_instruction(instruction: &BrainfuckInstr, bracket_counter: &mut u32, output: &mut String) {
     use BrainfuckInstr::*;
-    match instruction {
+    output.push_str(match instruction {
+        PointerDec => "dec rsi",
+        PointerInc => "inc rsi",
+        DataDec => "dec byte [rsi]",
         DataInc => "inc byte [rsi]",
+        GetByte => "mov rdx,1\nmov rdi,0\nmov rax,0\nsyscall",
         PutByte => "mov rdx,1\nmov rdi,1\nmov rax,1\nsyscall",
         _ => unimplemented!()
-    }
+    });
+    output.push('\n');
 }
