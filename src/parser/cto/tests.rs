@@ -76,17 +76,17 @@ fn test_data_arithmetic() {
 fn test_print() {
     let mut code: Vec<BrainfuckInstr> = vec![
         PutByte, PointerInc, PutByte,
-        PointerInc,
+        PointerDec,
         PutByte, PointerInc, PutByte, PointerInc, PutByte,
-        PointerInc,
+        PointerDec,
         PutByte
     ];
     optimize(&mut code);
     let expected_code: Vec<BrainfuckInstr> = vec![
         Print(2),
-        PointerInc,
+        PointerDec,
         Print(3),
-        PointerInc,
+        PointerDec,
         PutByte
     ];
     assert_eq!(&code, &expected_code)

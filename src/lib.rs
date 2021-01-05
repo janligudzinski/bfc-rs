@@ -3,7 +3,7 @@ mod parser;
 /// Module containing the compiler code.
 mod compiler;
 /// Type representing a standard or virtual Brainfuck instruction.
-#[derive(Debug, PartialEq)] // this is for tests
+#[derive(Clone, Debug, PartialEq)] // this is for tests
 pub enum BrainfuckInstr {
     /// Move the data pointer back one cell.
     PointerDec,
