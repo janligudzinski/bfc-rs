@@ -28,7 +28,24 @@ fn translate_instruction(instruction: &BrainfuckInstr, bracket_counter: &mut u32
         DataInc => "inc byte [rsi]",
         GetByte => "mov rdx,1\nmov rdi,0\nmov rax,0\nsyscall",
         PutByte => "mov rdx,1\nmov rdi,1\nmov rax,1\nsyscall",
-        _ => unimplemented!()
+        WhileNonzero=> {
+            let asm = format!(
+                "cmp [rsi],0\nje end_{x}\nwhile_{x}:",
+                x = bracket_counter
+            );
+            *bracket_counter += 1;
+            output.push_str(&asm);
+            return // early return so this block doesn't have to evaluate to an expression
+        },
+        EndWhile => {
+            *bracket_counter -= 1;
+            let asm = format!(
+                "cmp [rsi],0\njne while_{x}\nend_{x}:",
+                x = bracket_counter
+            );
+            output.push_str(&asm);
+            return // ditto
+        }
     });
     output.push('\n');
 }
