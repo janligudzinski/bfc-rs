@@ -30,7 +30,7 @@ fn translate_instruction(instruction: &BrainfuckInstr, bracket_counter: &mut u32
         PutByte => "mov rdx,1\nmov rdi,1\nmov rax,1\nsyscall",
         WhileNonzero=> {
             let asm = format!(
-                "cmp [rsi],0\nje end_{x}\nwhile_{x}:",
+                "cmp [rsi],0\nje end_{x}\nwhile_{x}:\n",
                 x = bracket_counter
             );
             *bracket_counter += 1;
@@ -40,7 +40,7 @@ fn translate_instruction(instruction: &BrainfuckInstr, bracket_counter: &mut u32
         EndWhile => {
             *bracket_counter -= 1;
             let asm = format!(
-                "cmp [rsi],0\njne while_{x}\nend_{x}:",
+                "cmp [rsi],0\njne while_{x}\nend_{x}:\n",
                 x = bracket_counter
             );
             output.push_str(&asm);
