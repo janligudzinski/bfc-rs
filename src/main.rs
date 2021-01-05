@@ -1,7 +1,7 @@
 use bfc_rs::{compile, Parser, SyntaxError};
 use argh::FromArgs;
 #[derive(FromArgs)]
-/// BFC-RS v0.1
+/// BFC-RS v1.0.0
 struct App {
     #[argh(positional, description = "source filename")]
     source_filename: String,

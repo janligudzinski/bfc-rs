@@ -1,6 +1,6 @@
 [package]
 name = "bfc-rs"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["oreganoli <3611916+oreganoli@users.noreply.github.com>"]
 edition = "2018"
 
