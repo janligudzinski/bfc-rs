@@ -51,6 +51,25 @@ fn translate_instruction(instruction: &BrainfuckInstr, total_loops: &mut u32, lo
             );
             output.push_str(&asm);
             return // ditto
+        },
+        /*We'll be writing out the full names of our enum's variants from now on
+        to get proper type hints to show in our IDE, like (x: &u16).
+        Rust-analyzer doesn't deal well with imported enum variants yet,
+        unless we're talking about Options and Results - those are built-in. */
+        BrainfuckInstr::PointerSub(x) => {
+            unimplemented!()
+        },
+        BrainfuckInstr::PointerAdd(x) => {
+            unimplemented!()
+        },
+        BrainfuckInstr::DataSub(x) => {
+            unimplemented!()
+        },
+        BrainfuckInstr::DataAdd(x) => {
+            unimplemented!()
+        },
+        BrainfuckInstr::Print(x) => {
+            unimplemented!()
         }
     });
     output.push('\n');
