@@ -31,3 +31,6 @@ pub enum SyntaxError {
     /// The last while loop opened, at the contained line:index position, has no closing bracket.
     UnclosedWhile(usize, usize)
 }
+
+pub use compiler::compile;
+pub use parser::Parser;

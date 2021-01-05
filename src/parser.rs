@@ -3,7 +3,7 @@ mod tests;
 
 use super::{BrainfuckInstr, SyntaxError};
 /// Struct responsible for parsing Brainfuck.
-struct Parser {
+pub struct Parser {
     /// The 1-indexed position (line number, position within line) of the earliest `[` without a matching `]`.
     earliest_unclosed: (usize, usize),
     /// The number that keeps track of whether or not the brackets are balanced so far.
@@ -15,7 +15,7 @@ struct Parser {
 impl Parser {
     // Now that our struct isn't empty, we should make a constructor for it. Structs can be declared directly ad hoc, but only if the current module can see all of the struct's fields.
     // Rust has no language-level concept of a constructor; we just put a struct declaration into an ordinary function. Convention dictates we name it "new".
-    fn new() -> Self {
+    pub fn new() -> Self {
         // "Self" is just a way to tell the compiler "put this data type's actual name here".
         // We could write "fn new() -> Parser", but this is neater and would require less searching-and-replacing if we wanted to manually rename `Parser`.
         Self {
@@ -23,7 +23,7 @@ impl Parser {
             bracket_balance: 0
         }
     }
-    fn parse(&mut self, code: &str) -> Result<Vec<BrainfuckInstr>, SyntaxError> {
+    pub fn parse(&mut self, code: &str) -> Result<Vec<BrainfuckInstr>, SyntaxError> {
         use BrainfuckInstr::*;
         self.earliest_unclosed = (0, 0);
         self.bracket_balance = 0; // zero out the parser's state just in case
