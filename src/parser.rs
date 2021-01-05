@@ -1,6 +1,9 @@
 #[cfg(test)]
 mod tests;
 
+/// Compile-time optimization module.
+mod cto;
+
 use super::{BrainfuckInstr, SyntaxError};
 /// Struct responsible for parsing Brainfuck.
 pub struct Parser {
