@@ -22,7 +22,6 @@ fn test_hi_bf() {
         DataAdd(33),
         PointerInc,
         DataAdd(10),
-        PointerInc,
         PointerSub(3),
         Print(4)
     ];
