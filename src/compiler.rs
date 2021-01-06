@@ -39,10 +39,13 @@ fn translate_instruction(instruction: &BrainfuckInstr, total_loops: &mut u32, lo
             loop_no_stack.push(*total_loops);
             let asm = format!(
                 "cmp byte [rsi],0\nje .end_{x}\n.while_{x}:\n",
+                /* In match arms like this one, our ASM instruction strings have \n at the end
+                because we're not going to reach past the end of our match block. */
                 x = total_loops
             );
             output.push_str(&asm);
             return // early return so this block doesn't have to evaluate to an expression
+            // (clarification: Rust doesn't like references to Strings that are about to go out of scope and die)
         },
         EndWhile => {
             let asm = format!(
@@ -57,19 +60,30 @@ fn translate_instruction(instruction: &BrainfuckInstr, total_loops: &mut u32, lo
         Rust-analyzer doesn't deal well with imported enum variants yet,
         unless we're talking about Options and Results - those are built-in. */
         BrainfuckInstr::PointerSub(x) => {
-            unimplemented!()
+            let asm = format!("sub rsi,{x}\n", x = x);
+            output.push_str(&asm);
+            return
         },
         BrainfuckInstr::PointerAdd(x) => {
-            unimplemented!()
+            let asm = format!("add rsi,{x}\n", x = x);
+            output.push_str(&asm);
+            return
         },
         BrainfuckInstr::DataSub(x) => {
-            unimplemented!()
+            let asm = format!("sub byte [rsi],{x}\n", x = x);
+            output.push_str(&asm);
+            return
         },
         BrainfuckInstr::DataAdd(x) => {
-            unimplemented!()
+            let asm = format!("add byte [rsi],{x}\n", x = x);
+            output.push_str(&asm);
+            return
         },
         BrainfuckInstr::Print(x) => {
-            unimplemented!()
+            // Copypasted from the PutByte arm, except rdx is now set dynamically
+            let asm = format!("mov rdx,{x}\nmov rdi,1\nmov rax,1\nsyscall\n", x = x);
+            output.push_str(&asm);
+            return
         }
     });
     output.push('\n');
