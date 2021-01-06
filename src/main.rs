@@ -1,12 +1,14 @@
-use bfc_rs::{compile, Parser, SyntaxError};
+use bfc_rs::{compile, optimize, Parser, SyntaxError};
 use argh::FromArgs;
 #[derive(FromArgs)]
-/// BFC-RS v1.0.0
+/// BFC-RS v1.1.0
 struct App {
     #[argh(positional, description = "source filename")]
     source_filename: String,
     #[argh(option, short = 'o', description = "output filename (must be provided unless --dump-nasm is explicitly passed)")]
     output_filename: Option<String>,
+    #[argh(switch, description = "disable compile-time optimizations")]
+    no_cto: bool,
     #[argh(switch, description = "instead of compiling, print raw NASM output to stdout for debugging")]
     dump_nasm: bool,
     #[argh(switch, description = "do not clean up build directory after successful build")]
@@ -24,7 +26,7 @@ fn main() {
         }
     };
     let mut parser = Parser::new();
-    let code = match parser.parse(&source_code) {
+    let mut code = match parser.parse(&source_code) {
         Ok(code) => code,
         Err(e) => {
             match e {
@@ -38,7 +40,13 @@ fn main() {
             exit(1);
         }
     };
+
+    if !opts.no_cto {
+        optimize(&mut code);
+    }
+
     let asm = compile(&code);
+    
     if opts.dump_nasm {
         println!("{}", asm);
         return

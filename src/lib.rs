@@ -45,4 +45,7 @@ pub enum SyntaxError {
 }
 
 pub use compiler::compile;
-pub use parser::Parser;
+pub use parser::{
+    cto::optimize,
+    Parser
+};

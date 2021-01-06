@@ -2,7 +2,7 @@
 mod tests;
 
 /// Compile-time optimization module.
-mod cto;
+pub mod cto;
 
 use super::{BrainfuckInstr, SyntaxError};
 /// Struct responsible for parsing Brainfuck.
