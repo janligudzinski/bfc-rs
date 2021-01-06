@@ -6,6 +6,78 @@ use super::BrainfuckInstr;
 /// Optimizes a list of Brainfuck instructions to be less repetitive.
 pub fn optimize(code: &mut Vec<BrainfuckInstr>) {
     optimize_arithmetic(code);
+    // dbg!(&code);
+    /* this helped us while fixing
+    a buggy interaction between the arithmetic and print passes
+    the reason was we didn't push the last instruction
+    to the instruction vector if it wasn't arithmetic 🤷
+    see lines 119-122 */
+    optimize_printing(code);
+}
+
+fn optimize_printing(code: &mut Vec<BrainfuckInstr>) -> () {
+    use BrainfuckInstr::{PointerInc, PutByte, Print};
+    let mut last_op = match code.get(0) {
+        Some(op) => op.clone(),
+        None => return // no instructions to optimize
+    };
+    let mut print_lvl = 0u16;
+    let mut opt = Vec::new();
+    for op in code.iter() {
+        match op {
+            PutByte => {
+                if print_lvl == 0 {
+                    print_lvl += 1;
+                } else {
+                    match last_op {
+                        PointerInc  => print_lvl += 1,
+                        _ => {
+                            opt.push(PutByte);
+                            print_lvl = 1
+                        }
+                    }
+                }
+            },
+            PointerInc => {
+                match last_op {
+                    PutByte => (),
+                    _ => {
+                        opt.push(PointerInc);
+                        print_lvl = 0;
+                    }
+                }
+            }
+            other => {
+                match print_lvl {
+                    0 => {
+                        opt.push(other.clone());
+                        print_lvl = 0;
+                    },
+                    1 => {
+                        opt.push(PutByte);
+                        opt.push(other.clone());
+                        print_lvl = 0;
+                    },
+                    n => {
+                        opt.push(Print(n));
+                        opt.push(other.clone());
+                        print_lvl = 0;
+                    }
+                }
+            }
+        }
+        last_op = op.clone();
+    }
+    match print_lvl {
+        0 => (),
+        1 => {
+            opt.push(PutByte);
+        },
+        n => {
+            opt.push(Print(n));
+        }
+    }
+    *code = opt;
 }
 /// Arithmetic optimization pass.
 fn optimize_arithmetic(code: &mut Vec<BrainfuckInstr>) {
@@ -44,6 +116,10 @@ fn optimize_arithmetic(code: &mut Vec<BrainfuckInstr>) {
         }
         last_op = op.clone();
     }
+    match last_op {
+        DataDec | DataInc | PointerDec | PointerInc => (),
+        _ => opt.push(last_op)   
+    };
     *code = opt;
 }
 /// "Compress" standard Brainfuck arithmetic operations repeated `x` times into our own virtual ones.
