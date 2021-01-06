@@ -1,8 +1,14 @@
 [package]
 name = "bfc-rs"
+description = "A Brainfuck compiler for x86-64 Linux implemented in Rust."
+readme = "README.md"
+repository = "https://github.com/oreganoli/bfc-rs/"
 version = "1.1.0"
 authors = ["oreganoli <3611916+oreganoli@users.noreply.github.com>"]
+license = "MIT"
 edition = "2018"
+keywords = ["brainfuck", "compiler", "x86-64", "x64", "asm"]
+categories = ["parser-implementations", "development-tools", "command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
