@@ -2,6 +2,12 @@
 
 BFC-RS is a feature-complete [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) compiler for x86_64 Linux implemented in Rust. You can read the (finished) [*Terrible Compiler for a Useless Language*](https://oreganoli.github.io/blog/3/) series of posts at [my blog](https://oreganoli.github.io) if you want to read about its development.
 
+## Features
+
+- generates a working executable for any Brainfuck program
+- optimizes programs at compile time to reduce disk space/memory usage and execution time
+- optionally produces an assembly code dump for manual inspection
+
 ## Manual building and installation
 `cargo build` and `cargo install` are entirely adequate.
 
@@ -15,6 +21,7 @@ Options:
   -o, --output-filename
                     output filename (must be provided unless --dump-nasm is
                     explicitly passed)
+  --no-cto          disable compile-time optimizations
   --dump-nasm       instead of compiling, print raw NASM output to stdout for
                     debugging
   --no-cleanup      do not clean up build directory after successful build
