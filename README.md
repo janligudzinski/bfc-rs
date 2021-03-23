@@ -1,6 +1,6 @@
 # BFC-RS
 
-BFC-RS is a feature-complete [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) compiler for x86_64 Linux implemented in Rust. You can read the (finished) [*Terrible Compiler for a Useless Language*](https://oreganoli.github.io/blog/3/) series of posts at [my blog](https://oreganoli.github.io) if you want to read about its development.
+BFC-RS is a feature-complete [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) compiler for x86_64 Linux implemented in Rust.
 
 ## Features
 
